@@ -1,0 +1,27 @@
+Input:
+----------------
+{
+  "restaurant": {
+    "rating": {
+      "value": 3
+    },
+    "address": {
+      "value": "India"
+    }
+  }
+}
+
+Schema:
+-------
+[
+  {
+    "operation": "shift",
+    "spec": {
+      "restaurant": {
+        "rating": {
+          "value": "Restaurant Rating"
+        }
+      }
+    }
+  }
+]
