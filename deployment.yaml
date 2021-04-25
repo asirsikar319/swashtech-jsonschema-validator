@@ -1,0 +1,55 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: swashtech-jsonschema-validator
+  namespace: swashtech
+  selfLink: /apis/apps/v1/namespaces/swashtech/deployments/swashtech-jsonschema-validator
+  labels:
+    run: swashtech-jsonschema-validator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: swashtech-jsonschema-validator
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: swashtech-jsonschema-validator
+    spec:
+      volumes:
+        - name: application-config
+          configMap:
+            name: swashtech-jsonschema-validator
+            items:
+              - key: application.properties
+                path: application.properties
+            defaultMode: 420
+      containers:
+        - name: swashtech-jsonschema-validator
+          image: asirsikar319/swashtech-jsonschema-validator
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: JAVA_OPTS
+              value: '-Dspring.config.location=/etc/config'
+          resources: {}
+          volumeMounts:
+            - name: application-config
+              mountPath: /etc/config
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600

@@ -25,3 +25,31 @@ Schema:
     }
   }
 ]
+
+-------------------------------------------
+
+{
+  "input": {
+    "restaurant": {
+      "rating": {
+        "value": 3
+      },
+      "address": {
+        "value": "India"
+      }
+    }
+  },
+  "schema": [
+    {
+      "operation": "shift",
+      "spec": {
+        "restaurant": {
+          "rating": {
+            "value": "Restaurant Rating"
+          }
+        }
+      }
+    }
+  ]
+}
+
